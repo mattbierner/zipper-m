@@ -1,0 +1,16 @@
+package Zipper
+with
+    import 'akh::trampoline' Trampoline,
+
+    import './trans/zipper' ZipperT
+in {
+
+/* Monad
+ ******************************************************************************/
+Zipper = ZipperT(Trampoline);
+
+Zipper.runZipper = \m ctx ->
+    Trampoline.run(
+        ZipperT.run(m, ctx));
+
+}

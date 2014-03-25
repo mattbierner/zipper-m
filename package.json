@@ -1,0 +1,52 @@
+{
+    "name": "zipper-m",
+    "version": "0.0.0",
+    "description": "Akh Neith Zipper monad",
+    "author": "Matt Bierner",
+    "license": "MIT",
+    "keywords": [
+        "monad transformer",
+        "algebraic",
+        "fantasy land",
+        "monad",
+        "zipper",
+        "neith"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mattbierner/zipper-m.git"
+    },
+    "bugs": {
+       "url" : "https://github.com/mattbierner/zipper-m/issues"
+    },
+    
+    "main": "index.js",
+    "directories": {
+        "lib": "dist_node/"
+    },
+    "files": [
+        "dist_node",
+        "index.js",
+        "test.js",
+        "tests"
+    ],
+    
+    "dependencies": {
+        "neith": "1.5.x",
+        "akh": "0.8.x",
+    
+        "require-directory": "1.2.x"
+    },
+    
+   "devDependencies": {
+        "nodeunit": "0.8.x"
+    },
+    
+    "scripts": {
+        "test": "node test.js",
+        
+        "build": "npm run build-amd && npm run build-node",
+        "build-amd": "khepri lib -o dist",
+        "build-node": "khepri lib -o dist_node --package_manager=node"
+    }
+}
