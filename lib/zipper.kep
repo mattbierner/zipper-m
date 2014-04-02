@@ -11,6 +11,6 @@ Zipper = ZipperT(Trampoline);
 
 Zipper.runZipper = \m ctx ->
     Trampoline.run(
-        ZipperT.run(m, ctx));
+        ZipperT.runZipper(m, ctx));
 
 }

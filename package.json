@@ -1,6 +1,6 @@
 {
     "name": "zipper-m",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "Akh Neith Zipper monad",
     "author": "Matt Bierner",
     "license": "MIT",
@@ -32,8 +32,8 @@
     ],
     
     "dependencies": {
-        "neith": "1.5.x",
-        "akh": "0.8.x",
+        "neith": ">=1.6.x",
+        "akh": "1.0.x",
     
         "require-directory": "1.2.x"
     },
