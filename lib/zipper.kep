@@ -9,8 +9,6 @@ in {
  ******************************************************************************/
 Zipper = ZipperT(Trampoline);
 
-Zipper.runZipper = \m ctx ->
-    Trampoline.run(
-        ZipperT.runZipper(m, ctx));
+Zipper.runZipper = ZipperT.runZipperT \>> Trampoline.run;
 
 }

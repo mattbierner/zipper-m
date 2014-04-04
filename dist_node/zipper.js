@@ -7,7 +7,9 @@ var Trampoline = require("akh")["trampoline"],
     ZipperT = require("./trans/zipper"),
     Zipper;
 (Zipper = ZipperT(Trampoline));
-(Zipper.runZipper = (function(m, ctx) {
-    return Trampoline.run(ZipperT.run(m, ctx));
+var x = ZipperT.runZipperT,
+    y = Trampoline.run;
+(Zipper.runZipper = (function() {
+    return y(x.apply(null, arguments));
 }));
 (module.exports = Zipper);

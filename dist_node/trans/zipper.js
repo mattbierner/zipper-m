@@ -9,9 +9,7 @@ var StateT = require("akh")["trans"]["state"],
     ZipperT;
 (ZipperT = (function(m) {
     var Instance = StateT(m);
-    (Instance.get = Instance.get);
-    (Instance.put = Instance.put);
-    (Instance.extract = Instance.get.chain(zipper.extract));
+    (Instance.extract = Instance.get.map(zipper.extract));
     (Instance.inspect = Instance.get.map.bind(Instance.get));
     (Instance.inspectWith = Instance.extract.chain.bind(Instance.extract));
     (Instance.move = Instance.modify);
