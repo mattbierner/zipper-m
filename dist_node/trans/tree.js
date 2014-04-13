@@ -27,5 +27,5 @@ var zipper = require("neith")["zipper"],
     TreeZipperMonad(Instance);
     return Instance;
 }));
-(TreeZipperT.runTreeZipperT = ZipperT.runTreeZipperT);
+(TreeZipperT.runTreeZipperT = ZipperT.runZipperT);
 (module.exports = TreeZipperT);

@@ -5,11 +5,11 @@
 "use strict";
 var Identity = require("akh")["identity"],
     TreeZipperT = require("./trans/tree"),
-    Zipper;
-(Zipper = TreeZipperT(Identity));
+    TreeZipper;
+(TreeZipper = TreeZipperT(Identity));
 var x = TreeZipperT.runTreeZipperT,
     y = Identity.runIdentity;
-(Zipper.runZipper = (function() {
+(TreeZipper.runTreeZipper = (function() {
     return y(x.apply(null, arguments));
 }));
-(module.exports = Zipper);
+(module.exports = TreeZipper);

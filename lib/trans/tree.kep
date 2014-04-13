@@ -42,6 +42,6 @@ TreeZipperT := \m -> {
     return Instance;
 };
 
-TreeZipperT.runTreeZipperT = ZipperT.runTreeZipperT;
+TreeZipperT.runTreeZipperT = ZipperT.runZipperT;
 
 }

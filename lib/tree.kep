@@ -1,4 +1,4 @@
-package Zipper
+package TreeZipper
 with
     import 'akh::identity' Identity,
 
@@ -7,8 +7,8 @@ in {
 
 /* Monad
  ******************************************************************************/
-Zipper = TreeZipperT(Identity);
+TreeZipper = TreeZipperT(Identity);
 
-Zipper.runZipper = TreeZipperT.runTreeZipperT \>> Identity.runIdentity;
+TreeZipper.runTreeZipper = TreeZipperT.runTreeZipperT \>> Identity.runIdentity;
 
 }

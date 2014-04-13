@@ -1,8 +1,8 @@
 # ChangeLog
 
-## 1.0.0 - April XX, 2014
-* Split tree zippers into own monads.
-* Exported most common zipper ops.
+## 1.0.0 - April 13, 2014
+* Split tree zippers into own files.
+* Exported more common zipper ops.
 
 ## 0.1.1 - April 4, 2014
 * Fixed `extract`

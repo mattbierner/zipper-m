@@ -3,12 +3,12 @@
  * DO NOT EDIT
 */
 "use strict";
-var Trampoline = require("akh")["trampoline"],
+var Identity = require("akh")["identity"],
     ZipperT = require("./trans/zipper"),
     Zipper;
-(Zipper = ZipperT(Trampoline));
+(Zipper = ZipperT(Identity));
 var x = ZipperT.runZipperT,
-    y = Trampoline.run;
+    y = Identity.runIdentity;
 (Zipper.runZipper = (function() {
     return y(x.apply(null, arguments));
 }));
