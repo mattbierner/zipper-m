@@ -1,0 +1,47 @@
+/**
+ * @fileOverview Zipper monad transformer for a tree zipper.
+ */
+package TreeZipperT
+with
+    import 'neith::zipper' zipper,
+    import 'neith::tree' tree,
+    
+    import './zipper' ZipperT
+in {
+
+var TreeZipperMonad := \Instance -> {
+    /* Tree Queries
+     **************************************************************************/
+    /**
+     * Get the current tree node.
+     */
+    Instance.node = Instance.inspect(tree.node);
+
+    /* Tree Movement
+     **************************************************************************/
+    Instance.child = \edge -> Instance.move (tree.child @ edge);
+    
+    Instance.sibling = \edge -> Instance.move (tree.sibling @ edge);
+    
+    /* Tree Editing
+     **************************************************************************/
+    Instance.modifyNode = \f -> Instance.move (tree.modifyNode @ f);
+    
+    Instance.setNode = \x -> Instance.move (tree.setNode @ x);
+    
+    return Instance;
+};
+
+/* Transformer
+ ******************************************************************************/
+TreeZipperT := \m -> {
+    var Instance = ZipperT(m);
+    
+    TreeZipperMonad(Instance);
+    
+    return Instance;
+};
+
+TreeZipperT.runTreeZipperT = ZipperT.runTreeZipperT;
+
+}

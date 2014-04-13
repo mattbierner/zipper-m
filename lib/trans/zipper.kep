@@ -1,74 +1,98 @@
+/**
+ * @fileOverview Zipper monad transformer for generic zipper.
+ */
 package ZipperT
 with
     import 'akh::trans::state' StateT,
     
-    import 'neith::zipper' zipper,
-    import 'neith::tree' tree
+    import 'neith::zipper' zipper
 in {
 
-/* Transformer
- ******************************************************************************/
-ZipperT = \m -> {
-    var Instance = StateT(m);
+var ZipperMonad = \Instance get move -> {
     
     /* Queries
-     ******************************************************************************/
-    /**
-     * Get the current focus of the zipper.
-     */
-    Instance.extract = Instance.get.map(zipper.extract);
-    
+     **************************************************************************/
     /**
      * Call `f` with the current zipper and return result
      */
-    Instance.inspect = Instance.get.map.bind(Instance.get);
+    Instance.inspect = Instance.prototype.inspect = get.map.bind(get);
+    
+    /**
+     * Get the current focus of the zipper.
+     */
+    Instance.extract = Instance.prototype.extract = get.map(zipper.extract);
     
     /**
      * Call `f` with the current zipper and continue with result of `f`.
      */
     Instance.inspectWith = Instance.extract.chain.bind(Instance.extract);
     
-    /* Movement
-     ******************************************************************************/
+    /* Basic Movement
+     **************************************************************************/
     /**
      * Modify the current zipper.
      */
-    Instance.move = Instance.modify;
+    Instance.move = Instance.prototype.move = move;
     
-    Instance.up = Instance.move zipper.up;
-    Instance.down = Instance.move zipper.down;
-    Instance.left = Instance.move zipper.left;
-    Instance.right = Instance.move zipper.right;
+    Instance.up = Instance.prototype.up = move (zipper.up);
     
-    Instance.root = Instance.move zipper.root;
+    Instance.down = Instance.prototype.down = move (zipper.down);
     
-    /* Tree Operations
-     ******************************************************************************/
-    /**
-     * Get the current tree node.
-     */
-    Instance.node = Instance.inspect(tree.node);
+    Instance.left = Instance.prototype.left = move (zipper.left);
     
-    /**
-     * Modify the current tree node with `f`.
-     */
-    Instance.modifyNode = \f -> Instance.move tree.modifyNode @ f;
+    Instance.right = Instance.prototype.right  = move (zipper.right);
     
-    /**
-     * Set the current tree node to `x`.
-     */
-    Instance.setNode = \x -> Instance.move tree.setNode @ x;
+    /* Compound Movement
+     **************************************************************************/
+    Instance.root = Instance.prototype.root = move (zipper.root);
     
-    /**
-     * Set the current tree node to `x`.
-     */
-    Instance.child = \edge -> Instance.move tree.child @ edge;
+    Instance.leftmost = Instance.prototype.leftmost = move (zipper.leftmost);
+    
+    Instance.rightmost = Instance.prototype.rightmost = move (zipper.rightmost);
+    
+    Instance.leftLeaf = Instance.prototype.leftLeaf = move (zipper.leftLeaf);
+    
+    Instance.rightLeaf = Instance.prototype.rightLeaf = move (zipper.rightLeaf);
+    
+    /* Editing
+     **************************************************************************/
+    Instance.replace = Instance.prototype.replace = \n -> move (zipper.replace @ n);
+    
+    Instance.modify = Instance.prototype.modify = \f -> move (zipper.modify @ f);
+    
+    Instance.remove = Instance.prototype.remove = move (zipper.remove);
+    
+    Instance.insertLeft = Instance.prototype.insertLeft = \n -> move (zipper.insertLeft @ n);
+    
+    Instance.insertRight = Instance.prototype.insertRight = \n -> move (zipper.insertRight @ n);
+    
+    Instance.insertChild = Instance.prototype.insertChild = \n -> move (zipper.insertChild @ n);
+    
+    Instance.appendChild = Instance.prototype.appendChild = \n -> move (zipper.appendChild @ n);
+    
+    return Instance;
+};
+
+/* Transformer
+ ******************************************************************************/
+ZipperT := \m -> {
+    var Instance := StateT(m);
+    
+    ZipperMonad(Instance,
+         Instance.get,
+         Instance.modify);
 
     return Instance;
 };
 
-ZipperT.runZipperT = \m ctx ->
-    StateT.evalStateT(m, ctx);
-
+/* Running
+ ******************************************************************************/
+/**
+ * Run a ZipperT computation. Return resulting value
+ * 
+ * @param m ZipperT computation.
+ * @param ctx Starting context.
+ */
+ZipperT.runZipperT = StateT.evalStateT;
 
 }
